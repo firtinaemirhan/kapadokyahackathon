@@ -58,15 +58,17 @@ commit_now() {
   COMMIT_COUNT=$((COMMIT_COUNT + 1))
   TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
-  # Değişiklik var mı kontrol et
-  git add -A
-
   if [ "$mode" = "start" ]; then
     COMMIT_BODY="Starting the hourly checkpoint flow for the hackathon and preserving the project state at ${TIMESTAMP}."
   else
     COMMIT_BODY="Keeping a regular progress trail for the hackathon while preserving the current project state at ${TIMESTAMP}."
   fi
   COMMIT_TRAILERS=$'Constraint: Hourly commits are required for Kapadokya Hackathon participation\nConfidence: high\nScope-risk: narrow\nTested: auto_commit.sh executed\nNot-tested: Remote push can still fail when authentication or network is unavailable'
+
+  update_progress_file "$mode" "$TIMESTAMP"
+
+  # Değişiklik var mı kontrol et
+  git add -A
 
   if git diff --cached --quiet; then
     # Değişiklik yoksa boş commit at
@@ -97,6 +99,25 @@ commit_now() {
   fi
 
   echo ""
+}
+
+update_progress_file() {
+  local mode="${1:-hourly}"
+  local timestamp="$2"
+  local label="Hourly checkpoint"
+
+  if [ "$mode" = "start" ]; then
+    label="Checkpoint flow started"
+  fi
+
+  {
+    echo "# Kapadokya Hackathon Progress"
+    echo
+    echo "Latest checkpoint: ${timestamp}"
+    echo "Status: ${label}"
+    echo
+    echo "This file is updated by the team checkpoint script so each scheduled commit is visible in the repository file list."
+  } > progress.md
 }
 
 natural_commit_title() {
