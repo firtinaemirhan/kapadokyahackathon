@@ -103,6 +103,11 @@ commit_now() {
 
 # Geri sayım göstergesi
 countdown() {
+  if [ ! -t 1 ]; then
+    sleep "$INTERVAL"
+    return
+  fi
+
   local secs=$INTERVAL
   while [ $secs -gt 0 ]; do
     local mins=$((secs / 60))
