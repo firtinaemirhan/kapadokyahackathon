@@ -2,7 +2,7 @@
 
 # ============================================
 # Kapadokya Hackathon 2026 — Auto Commit Script
-# Big3 Takımı | Saatlik otomatik commit
+# Big3 Takımı | Saat başı otomatik commit
 # ============================================
 # Kullanım:
 #   chmod +x auto_commit.sh
@@ -12,13 +12,12 @@
 # ============================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-INTERVAL="${INTERVAL:-3600}"  # 1 saat (saniye)
 RUN_ONCE="${RUN_ONCE:-0}"
 COMMIT_COUNT=0
 
 echo "╔══════════════════════════════════════════╗"
 echo "║   Big3 Auto-Commit — Hackathon 2026      ║"
-echo "║   Her 60 dakikada bir commit atılır       ║"
+echo "║   Commitler saat başında atılır           ║"
 echo "║   Durdurmak için: Ctrl+C                 ║"
 echo "╚══════════════════════════════════════════╝"
 echo ""
@@ -55,19 +54,24 @@ echo "⏰ Başlangıç: $(date '+%H:%M:%S')"
 echo ""
 
 commit_now() {
+  local mode="${1:-hourly}"
   COMMIT_COUNT=$((COMMIT_COUNT + 1))
   TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
   # Değişiklik var mı kontrol et
   git add -A
 
-  COMMIT_BODY="Keeping a regular progress trail for the hackathon while preserving the current project state at ${TIMESTAMP}."
+  if [ "$mode" = "start" ]; then
+    COMMIT_BODY="Starting the hourly checkpoint flow for the hackathon and preserving the project state at ${TIMESTAMP}."
+  else
+    COMMIT_BODY="Keeping a regular progress trail for the hackathon while preserving the current project state at ${TIMESTAMP}."
+  fi
   COMMIT_TRAILERS=$'Constraint: Hourly commits are required for Kapadokya Hackathon participation\nConfidence: high\nScope-risk: narrow\nTested: auto_commit.sh executed\nNot-tested: Remote push can still fail when authentication or network is unavailable'
 
   if git diff --cached --quiet; then
     # Değişiklik yoksa boş commit at
     git commit --allow-empty \
-      -m "$(natural_commit_title 0)" \
+      -m "$(natural_commit_title 0 "$mode")" \
       -m "$COMMIT_BODY" \
       -m "$COMMIT_TRAILERS"
     echo "  ⚪ Boş commit atıldı (değişiklik yoktu)"
@@ -75,7 +79,7 @@ commit_now() {
     # Değişiklik varsa normal commit
     CHANGED_FILES=$(git diff --cached --name-only | wc -l | tr -d ' ')
     git commit \
-      -m "$(natural_commit_title "$CHANGED_FILES")" \
+      -m "$(natural_commit_title "$CHANGED_FILES" "$mode")" \
       -m "$COMMIT_BODY Updated files: ${CHANGED_FILES}." \
       -m "$COMMIT_TRAILERS"
     echo "  🟢 ${CHANGED_FILES} dosya commit edildi"
@@ -97,8 +101,14 @@ commit_now() {
 
 natural_commit_title() {
   local changed_files="${1:-0}"
+  local mode="${2:-hourly}"
   local slot
   slot=$((($(date +%H) + COMMIT_COUNT + changed_files) % 8))
+
+  if [ "$mode" = "start" ]; then
+    echo "Start hourly Kapadokya checkpoints"
+    return
+  fi
 
   if [ "$changed_files" -eq 0 ]; then
     case "$slot" in
@@ -127,12 +137,13 @@ natural_commit_title() {
 
 # Geri sayım göstergesi
 countdown() {
+  local secs="${1:-0}"
+
   if [ ! -t 1 ]; then
-    sleep "$INTERVAL"
+    sleep "$secs"
     return
   fi
 
-  local secs=$INTERVAL
   while [ $secs -gt 0 ]; do
     local mins=$((secs / 60))
     local remaining=$((secs % 60))
@@ -143,9 +154,15 @@ countdown() {
   printf "\r                                    \r"
 }
 
+next_hour_epoch() {
+  local now
+  now=$(date +%s)
+  echo $(( ((now / 3600) + 1) * 3600 ))
+}
+
 # İlk commit hemen
-echo "🚀 İlk commit atılıyor..."
-commit_now
+echo "🚀 Başlangıç commit'i atılıyor..."
+commit_now start
 
 # Döngü
 while true; do
@@ -154,10 +171,14 @@ while true; do
     exit 0
   fi
 
-  NEXT_EPOCH=$(($(date +%s) + INTERVAL))
+  NEXT_EPOCH=$(next_hour_epoch)
   NEXT_TIME=$(date -r "$NEXT_EPOCH" '+%H:%M' 2>/dev/null || date -d "@$NEXT_EPOCH" '+%H:%M')
   echo "🕐 Sıradaki commit: $NEXT_TIME"
-  countdown
+  WAIT_SECONDS=$((NEXT_EPOCH - $(date +%s)))
+  if [ "$WAIT_SECONDS" -lt 1 ]; then
+    WAIT_SECONDS=1
+  fi
+  countdown "$WAIT_SECONDS"
   echo "📝 Commit #$((COMMIT_COUNT + 1)) atılıyor..."
   commit_now
 done
