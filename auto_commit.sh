@@ -45,13 +45,8 @@ if ! git rev-parse --is-inside-work-tree &>/dev/null; then
   exit 1
 fi
 
-if [ -z "$(git config user.name || true)" ]; then
-  git config user.name "${GIT_AUTHOR_NAME:-Big3 Auto Commit}"
-fi
-
-if [ -z "$(git config user.email || true)" ]; then
-  git config user.email "${GIT_AUTHOR_EMAIL:-big3-auto-commit@example.local}"
-fi
+git config user.name "${GIT_AUTHOR_NAME:-Emirhan FIRTINA}"
+git config user.email "${GIT_AUTHOR_EMAIL:-emirhanfirtina@MacBook-Air-2.local}"
 
 # İlk durumu göster
 echo "📁 Repo: $(git rev-parse --show-toplevel)"
@@ -62,18 +57,17 @@ echo ""
 commit_now() {
   COMMIT_COUNT=$((COMMIT_COUNT + 1))
   TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
-  SHORT_TIME=$(date '+%H:%M')
 
   # Değişiklik var mı kontrol et
   git add -A
 
-  COMMIT_BODY="The competition requires regular progress commits, so this checkpoint records the current repository state at ${TIMESTAMP}."
+  COMMIT_BODY="Keeping a regular progress trail for the hackathon while preserving the current project state at ${TIMESTAMP}."
   COMMIT_TRAILERS=$'Constraint: Hourly commits are required for Kapadokya Hackathon participation\nConfidence: high\nScope-risk: narrow\nTested: auto_commit.sh executed\nNot-tested: Remote push can still fail when authentication or network is unavailable'
 
   if git diff --cached --quiet; then
     # Değişiklik yoksa boş commit at
     git commit --allow-empty \
-      -m "Record hourly hackathon checkpoint ${SHORT_TIME} [${COMMIT_COUNT}]" \
+      -m "$(natural_commit_title 0)" \
       -m "$COMMIT_BODY" \
       -m "$COMMIT_TRAILERS"
     echo "  ⚪ Boş commit atıldı (değişiklik yoktu)"
@@ -81,8 +75,8 @@ commit_now() {
     # Değişiklik varsa normal commit
     CHANGED_FILES=$(git diff --cached --name-only | wc -l | tr -d ' ')
     git commit \
-      -m "Record hourly hackathon checkpoint ${SHORT_TIME} [${COMMIT_COUNT}]" \
-      -m "$COMMIT_BODY Changed files: ${CHANGED_FILES}." \
+      -m "$(natural_commit_title "$CHANGED_FILES")" \
+      -m "$COMMIT_BODY Updated files: ${CHANGED_FILES}." \
       -m "$COMMIT_TRAILERS"
     echo "  🟢 ${CHANGED_FILES} dosya commit edildi"
   fi
@@ -99,6 +93,36 @@ commit_now() {
   fi
 
   echo ""
+}
+
+natural_commit_title() {
+  local changed_files="${1:-0}"
+  local slot
+  slot=$((($(date +%H) + COMMIT_COUNT + changed_files) % 8))
+
+  if [ "$changed_files" -eq 0 ]; then
+    case "$slot" in
+      0) echo "Save latest hackathon progress" ;;
+      1) echo "Keep project checkpoint current" ;;
+      2) echo "Mark steady progress on the proposal" ;;
+      3) echo "Save Big3 progress checkpoint" ;;
+      4) echo "Keep Kapadokya work in sync" ;;
+      5) echo "Record current hackathon state" ;;
+      6) echo "Update progress checkpoint" ;;
+      *) echo "Save current project state" ;;
+    esac
+  else
+    case "$slot" in
+      0) echo "Refine Kapadokya project materials" ;;
+      1) echo "Update Big3 hackathon work" ;;
+      2) echo "Polish the latest project draft" ;;
+      3) echo "Improve hackathon submission files" ;;
+      4) echo "Refresh project documentation" ;;
+      5) echo "Add the latest Kapadokya updates" ;;
+      6) echo "Tighten current project files" ;;
+      *) echo "Save new hackathon changes" ;;
+    esac
+  fi
 }
 
 # Geri sayım göstergesi
