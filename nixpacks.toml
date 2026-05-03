@@ -1,3 +1,6 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "bun"]
+
 [phases.build]
 cmds = ["npm ci --omit=dev --ignore-scripts"]
 
