@@ -1,9 +1,0 @@
-{
-  "active": false,
-  "current_phase": "complete",
-  "started_at": "2026-05-02T13:42:03Z",
-  "task_description": "Build Tortu Next.js/Supabase hackathon MVP",
-  "context_snapshot_path": ".omx/context/tortu-marketplace-20260502T134203Z.md",
-  "completed_at": "2026-05-02T14:10:00Z",
-  "commit": "e030e47"
-}

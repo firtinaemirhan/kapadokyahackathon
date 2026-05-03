@@ -1,2 +1,0 @@
-"use client"; import { MapPin } from "lucide-react";
-export function LocationPicker({lat,lng}:{lat:number;lng:number}){ return <div className="grid min-h-[220px] place-items-center rounded-lg border border-dashed border-emerald-700 bg-emerald-50 text-center text-sm text-emerald-900"><div><MapPin className="mx-auto mb-2 h-8 w-8"/><b>Konum seçici</b><p>{lat.toFixed(4)}, {lng.toFixed(4)}</p></div></div>; }

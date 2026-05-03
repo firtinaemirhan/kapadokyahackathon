@@ -1,1 +1,0 @@
-export function Footer(){ return <footer className="border-t border-stone-200 bg-white"><div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-8 text-sm text-stone-600 md:flex-row md:items-center md:justify-between"><p>Tortu · Kapadokya'dan başlayan döngü.</p><p>Cave2Cloud Hackathon 2026 MVP.</p></div></footer>; }

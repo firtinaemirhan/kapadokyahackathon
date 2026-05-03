@@ -1,2 +1,0 @@
-import { NextRequest, NextResponse } from "next/server"; import { findIndustrialPois } from "@/lib/api/overpass";
-export async function POST(req:NextRequest){ try{const {lat,lng,radius}=await req.json(); return NextResponse.json({pois:await findIndustrialPois(Number(lat),Number(lng),Number(radius??25000)),source:"Overpass"});}catch(e){return NextResponse.json({error:e instanceof Error?e.message:"overpass failed"},{status:500})} }

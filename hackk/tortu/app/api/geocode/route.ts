@@ -1,2 +1,0 @@
-import { NextRequest, NextResponse } from "next/server"; import { geocodeAddress } from "@/lib/api/nominatim";
-export async function POST(req:NextRequest){ try{const {q}=await req.json(); if(!q) return NextResponse.json({error:"q is required"},{status:400}); return NextResponse.json(await geocodeAddress(q));}catch(e){return NextResponse.json({error:e instanceof Error?e.message:"geocode failed"},{status:500})} }

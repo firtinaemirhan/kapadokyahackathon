@@ -1,2 +1,0 @@
-"use client"; import { Languages } from "lucide-react"; import { Button } from "@/components/ui/button";
-export function LanguageSwitcher({locale}:{locale:string}){ return <Button variant="outline" size="sm" onClick={()=>{document.cookie=`NEXT_LOCALE=${locale==="tr"?"en":"tr"}; path=/; max-age=31536000`; window.location.reload();}}><Languages className="h-4 w-4" />{locale==="tr"?"EN":"TR"}</Button>; }
