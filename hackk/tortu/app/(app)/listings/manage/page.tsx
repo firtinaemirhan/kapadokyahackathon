@@ -1,0 +1,2 @@
+import { ListingCard } from "@/components/listing/ListingCard"; import { listings } from "@/lib/demo-data";
+export default function ManageListingsPage(){ return <div className="mx-auto max-w-7xl px-4 py-10"><h1 className="font-serif text-4xl font-semibold">İlanlarım</h1><div className="mt-8 grid gap-4 md:grid-cols-3">{listings.slice(0,3).map(l=><ListingCard key={l.id} listing={l}/>)}</div></div>; }

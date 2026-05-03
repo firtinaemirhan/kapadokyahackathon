@@ -1,0 +1,3 @@
+export function haversineKm(a:[number,number], b:[number,number]){ const R=6371; const rad=(x:number)=>x*Math.PI/180; const dLat=rad(b[0]-a[0]); const dLng=rad(b[1]-a[1]); const lat1=rad(a[0]); const lat2=rad(b[0]); const h=Math.sin(dLat/2)**2+Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLng/2)**2; return R*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h)); }
+export function formatKm(km:number){ return km<10 ? `${km.toFixed(1)} km` : `${Math.round(km)} km`; }
+export function validLngLat(value:unknown): value is [number,number] { return Array.isArray(value) && value.length===2 && value.every(v=>typeof v==="number" && Number.isFinite(v)); }

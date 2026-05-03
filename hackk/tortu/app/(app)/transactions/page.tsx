@@ -1,0 +1,2 @@
+import Link from "next/link"; import { Card } from "@/components/ui/card"; import { transactions } from "@/lib/demo-data";
+export default function TransactionsPage(){ return <div className="mx-auto max-w-5xl px-4 py-10"><h1 className="font-serif text-4xl font-semibold">İşlemler</h1><div className="mt-6 space-y-3">{transactions.map(tx=><Link key={tx.id} href={`/transactions/${tx.id}`}><Card className="mb-3 flex items-center justify-between p-4"><span>{tx.id}</span><span>{tx.co2_kg} kg CO₂</span><span>{tx.status}</span></Card></Link>)}</div></div>; }

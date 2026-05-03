@@ -1,0 +1,2 @@
+import { NextRequest, NextResponse } from "next/server"; import { classifyWaste } from "@/lib/api/huggingface";
+export async function POST(req:NextRequest){ try{const {text}=await req.json(); if(!text) return NextResponse.json({error:"text is required"},{status:400}); return NextResponse.json(await classifyWaste(text));}catch(e){return NextResponse.json({error:e instanceof Error?e.message:"classification failed"},{status:500})} }

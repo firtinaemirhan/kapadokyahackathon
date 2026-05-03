@@ -1,0 +1,5 @@
+[phases.build]
+cmds = ["npm ci --omit=dev --ignore-scripts"]
+
+[start]
+cmd = "node backend/server.js"

@@ -1,0 +1,2 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+:root{--background:45 38% 94%;--foreground:0 0% 10%;--ring:145 36% 27%}*{box-sizing:border-box}body{background:#F5F1E8;color:#1A1A1A}a{text-underline-offset:4px}.leaflet-container{font-family:inherit}
