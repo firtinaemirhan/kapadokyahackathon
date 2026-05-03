@@ -1,0 +1,230 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter Tight", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-tuff: var(--tuff);
+  --color-tuff-deep: var(--tuff-deep);
+  --color-ember: var(--ember);
+  --color-ember-glow: var(--ember-glow);
+  --color-cave: var(--cave);
+  --color-moss: var(--moss);
+  --color-moss-deep: var(--moss-deep);
+  --color-hero-leaf: var(--hero-leaf);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --gradient-hero: var(--gradient-hero);
+  --gradient-ember: var(--gradient-ember);
+  --gradient-cave: var(--gradient-cave);
+
+  --shadow-soft: 0 1px 2px rgba(28, 22, 20, 0.04), 0 8px 24px -8px rgba(28, 22, 20, 0.08);
+  --shadow-card: 0 2px 4px rgba(28, 22, 20, 0.04), 0 16px 40px -12px rgba(28, 22, 20, 0.12);
+  --shadow-ember: 0 8px 32px -8px color-mix(in oklab, var(--ember) 40%, transparent);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* Cappadocia-inspired pastel palette */
+  --background: oklch(0.98 0.008 70); /* soft cream */
+  --foreground: oklch(0.25 0.015 40); /* soft cave shadow */
+
+  --card: oklch(0.995 0.004 70);
+  --card-foreground: oklch(0.25 0.015 40);
+
+  --popover: oklch(0.995 0.004 70);
+  --popover-foreground: oklch(0.25 0.015 40);
+
+  --primary: oklch(0.7 0.12 145); /* richer pastel sage */
+  --primary-foreground: oklch(0.19 0.035 155);
+
+  --secondary: oklch(0.92 0.016 65); /* pastel tuff */
+  --secondary-foreground: oklch(0.25 0.015 40);
+
+  --muted: oklch(0.96 0.01 65);
+  --muted-foreground: oklch(0.52 0.015 45);
+
+  --accent: oklch(0.88 0.03 65);
+  --accent-foreground: oklch(0.25 0.015 40);
+
+  --destructive: oklch(0.65 0.16 28);
+  --destructive-foreground: oklch(0.98 0.008 70);
+
+  --border: oklch(0.92 0.014 60);
+  --input: oklch(0.92 0.014 60);
+  --ring: oklch(0.6 0.12 145);
+
+  /* Custom semantic tokens - pastel tones */
+  --tuff: oklch(0.92 0.016 65);
+  --tuff-deep: oklch(0.82 0.03 55);
+  --ember: oklch(0.7 0.12 145);
+  --ember-glow: oklch(0.8 0.1 145);
+  --cave: oklch(0.25 0.015 40);
+  --moss: oklch(0.68 0.1 145); /* pastel green */
+  --moss-deep: oklch(0.52 0.08 150);
+  /* Hero vurgu: canlı, doygun yeşil (yüksek chroma) */
+  --hero-leaf: oklch(0.62 0.22 152);
+  --warning: oklch(0.84 0.12 75); /* pastel amber for FX risk */
+  --danger: oklch(0.7 0.16 28);
+
+  --gradient-hero: linear-gradient(
+    135deg,
+    oklch(0.92 0.016 65) 0%,
+    oklch(0.88 0.04 95) 48%,
+    oklch(0.76 0.11 145) 100%
+  );
+  --gradient-ember: linear-gradient(135deg, oklch(0.62 0.13 145), oklch(0.8 0.1 145));
+  --gradient-cave: linear-gradient(180deg, oklch(0.3 0.015 40), oklch(0.22 0.015 40));
+
+  --chart-1: oklch(0.56 0.14 145);
+  --chart-2: oklch(0.68 0.1 170);
+  --chart-3: oklch(0.78 0.16 75);
+  --chart-4: oklch(0.45 0.12 240);
+  --chart-5: oklch(0.6 0.22 28);
+
+  --sidebar: oklch(0.97 0.012 65);
+  --sidebar-foreground: oklch(0.18 0.018 40);
+  --sidebar-primary: oklch(0.56 0.14 145);
+  --sidebar-primary-foreground: oklch(0.985 0.008 70);
+  --sidebar-accent: oklch(0.93 0.022 65);
+  --sidebar-accent-foreground: oklch(0.2 0.02 40);
+  --sidebar-border: oklch(0.88 0.018 60);
+  --sidebar-ring: oklch(0.56 0.14 145);
+}
+
+.dark {
+  --hero-leaf: oklch(0.78 0.2 158);
+  --background: oklch(0.14 0.018 40);
+  --foreground: oklch(0.96 0.012 65);
+  --card: oklch(0.2 0.02 40);
+  --card-foreground: oklch(0.96 0.012 65);
+  --popover: oklch(0.2 0.02 40);
+  --popover-foreground: oklch(0.96 0.012 65);
+  --primary: oklch(0.7 0.13 145);
+  --primary-foreground: oklch(0.14 0.018 40);
+  --secondary: oklch(0.28 0.02 40);
+  --secondary-foreground: oklch(0.96 0.012 65);
+  --muted: oklch(0.25 0.018 40);
+  --muted-foreground: oklch(0.7 0.018 50);
+  --accent: oklch(0.32 0.04 50);
+  --accent-foreground: oklch(0.96 0.012 65);
+  --destructive: oklch(0.6 0.22 28);
+  --destructive-foreground: oklch(0.96 0.012 65);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.7 0.13 145);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: var(--font-display);
+    font-feature-settings: "ss01";
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Leaflet overrides — tone the default look to match the system */
+.leaflet-container {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  font-family: var(--font-sans);
+  background: var(--tuff);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--card);
+  color: var(--card-foreground);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+}
+.leaflet-control-zoom {
+  display: none !important;
+}
+.tortu-pin {
+  background: transparent;
+  border: none;
+}
+.tortu-pin-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--ember);
+  border: 3px solid var(--background);
+  box-shadow:
+    0 0 0 2px var(--ember),
+    var(--shadow-ember);
+  animation: pinPulse 2.4s ease-out infinite;
+}
+@keyframes pinPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.scroll-marquee {
+  animation: marquee 40s linear infinite;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
