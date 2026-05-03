@@ -23,10 +23,6 @@ dist-ssr
 .wrangler/
 .dev.vars
 
-# Yerel / yan proje — repoya dahil değil
-.omx/
-hackk/
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

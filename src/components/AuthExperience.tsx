@@ -57,8 +57,8 @@ export function AuthExperience({ initialMode = "login" }: { initialMode?: AuthMo
                 Üretici profilinizi, stok bilgilerinizi ve ilanlarınızı tek hesapta yönetin.
               </h1>
               <p className="mt-5 max-w-lg text-background/70">
-                Tortu, Kapadokya&apos;daki endüstriyel yan ürünleri ton bazında listeleyerek döngüsel
-                ekonomiye katılımı destekler. Hesabınızı buradan oluşturabilir veya giriş
+                Tortu, Kapadokya&apos;daki endüstriyel yan ürünleri ton bazında listeleyerek
+                döngüsel ekonomiye katılımı destekler. Hesabınızı buradan oluşturabilir veya giriş
                 yapabilirsiniz; ilan kartlarında güncel kur, hesaplanmış rota mesafesi ve karbon
                 göstergesi birlikte yer alır.
               </p>
